@@ -60,12 +60,13 @@
  * Nefarious IRCu 0.4.0 or later                modules/protocol/nefarious
  * ngIRCd 19 or later [experimental]            modules/protocol/ngircd
  * ShadowIRCd 5.0 or later                      modules/protocol/shadowircd
+ * SillyIRCd                                    modules/protocol/sillyircd
  * UnrealIRCd 3.2 or later                      modules/protocol/unreal
  *
  * If your IRCd vendor has supplied a module file, build it and load it here
  * instead of one above.
  */
-#loadmodule "modules/protocol/charybdis";
+#loadmodule "modules/protocol/sillyircd";
 
 /* Protocol mixins.
  *
@@ -803,7 +804,7 @@ serverinfo {
 	desc = "Zohlai IRC Services";
 
 	/* numeric
-	 * Some protocol drivers (Charybdis, Ratbox2, Hybrid, P10, IRCNet)
+	 * Some protocol drivers (Charybdis, Ratbox2, Hybrid, P10, IRCNet, SillyIRCd)
 	 * require a server id, also known as a numeric. Please consult your
 	 * ircd's documentation when providing this value.
 	 */
@@ -846,7 +847,7 @@ serverinfo {
 	 * If this is enabled, Zohlai will indicate to the uplink IRCd
 	 * that it should not be included in /links output.  This only works
 	 * on the following IRCds at present: charybdis, hybrid, ircd-seven,
-	 * ratbox, shadowircd.
+	 * ratbox, shadowircd, sillyircd.
 	 */
 	#hidden;
 
@@ -1200,9 +1201,9 @@ chanserv {
 	 * a registered channel and then sets some modes before they are
 	 * deopped.
 	 * This is currently supported for charybdis, hybrid, ratbox,
-	 * bahamut and inspircd 1.1+. For charybdis, hybrid and ratbox
-	 * it only fully works with TS6, with TS5 bans and last-moment modes
-	 * will still apply.
+	 * bahamut, inspircd 1.1+ and sillyircd. For charybdis, hybrid,
+	 * ratbox and sillyircd it only fully works with TS6, with TS5
+	 * bans and last-moment modes will still apply.
 	 * (That can also be used to advantage, when first enabling this.)
 	 */
 	#changets;
