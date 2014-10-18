@@ -1,4 +1,5 @@
 ## Zohlai
+[![Build Status](https://travis-ci.org/zohlai/zohlai.svg?branch=master)](https://travis-ci.org/zohlai/zohlai)
 
 Zohlai is a set of services for IRC networks designed for large IRC networks with high
 scalability requirements.  It is relatively mature software, with some code and design
