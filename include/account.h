@@ -350,6 +350,12 @@ typedef struct {
 	const char *nick;
 } hook_info_noexist_req_t;
 
+typedef struct {
+	user_t *u;
+	const char *user;
+	const char *host;
+} hook_user_get_banmask_t;
+
 /* pmodule.c XXX */
 E bool backend_loaded;
 
@@ -359,6 +365,7 @@ E void (*db_load)(const char *arg);
 
 /* function.c */
 E bool is_founder(mychan_t *mychan, myentity_t *myuser);
+E void get_kline_userhost(user_t *u, const char **user, const char **host);
 
 /* node.c */
 E mowgli_list_t klnlist;
