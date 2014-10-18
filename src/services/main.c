@@ -9,5 +9,5 @@
 
 int main(int argc, char *argv[])
 {
-	return atheme_main(argc, argv);
+	return zohlai_main(argc, argv);
 }

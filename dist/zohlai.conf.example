@@ -13,14 +13,14 @@
 /*
  * These are the modules included with the core distribution of Services.
  *
- * You may be interested in the atheme community modules distribution as 
+ * You may be interested in the zohlai community modules distribution as
  * well, which adds additional features that may or may not be compatible
  * with the project paradigms intended for maintainance of the core of
- * atheme-services.
+ * zohlai-services.
  *
- * Visit the atheme-services website for more information and to download them.
+ * Visit the zohlai-services website for more information and to download them.
  *
- * Modules marked [experimental] will taint your atheme-services instance. Do
+ * Modules marked [experimental] will taint your zohlai-services instance. Do
  * not file any bug reports with us about using Services with those modules;
  * they will be ignored.
  */
@@ -28,13 +28,13 @@
 /* Dynamic security modules.
  *
  * WARNING: If you select one of these modules, the default security policy included
- * with Atheme may break.  These modules are intended for people who know what they
+ * with Zohlai may break.  These modules are intended for people who know what they
  * are doing and understand the implications of what they do.  Security modules which
  * are likely to break the default policy are prefixed with [!], if you are new to
- * Atheme, you should avoid enabling them.
+ * Zohlai, you should avoid enabling them.
  *
  * If you find your security policy is broken, you may debug it while allowing normal
- * operation of your IRC network by putting Atheme into "permissive mode".  To do this,
+ * operation of your IRC network by putting Zohlai into "permissive mode".  To do this,
  * enable general::permissive_mode.
  *
  * [!] Infer "command:" namespace permissions   modules/security/cmdperm
@@ -84,16 +84,16 @@
 #loadmodule "modules/protocol/mixin_noowner";
 
 /* Database backend module.
- * 
+ *
  * Please select a database backend module. Different backends allow for
  * different ways in which the services data can be manipulated. YOU MAY
  * ONLY HAVE ONE OF THESE BACKENDS LOADED.
- * 
+ *
  * The following backends are available:
- * 
- * Atheme 0.1 flatfile database format          modules/backend/flatfile
+ *
+ * Zohlai 0.1 flatfile database format          modules/backend/flatfile
  * Open Services Exchange database format       modules/backend/opensex
- * 
+ *
  * Most networks will want opensex.
  */
 loadmodule "modules/backend/opensex";
@@ -263,7 +263,7 @@ loadmodule "modules/nickserv/verify";
 loadmodule "modules/nickserv/vhost";
 
 /* ChanServ modules.
- * 
+ *
  * Here you can disable or enable certain features of ChanServ, by
  * defining which modules are loaded. You can even disable ChanServ
  * entirely. Please note that ChanServ requires an authentication
@@ -538,7 +538,7 @@ loadmodule "modules/infoserv/main";
  * AUTHCOOKIE mechanism (for IRIS)              modules/saslserv/authcookie
  * EXTERNAL mechanism (IRCv3.1+)                modules/saslserv/external
  *
- * ECDSA-NIST256p-CHALLENGE support requires that Atheme be compiled against OpenSSL.
+ * ECDSA-NIST256p-CHALLENGE support requires that Zohlai be compiled against OpenSSL.
  */
 loadmodule "modules/saslserv/main";
 loadmodule "modules/saslserv/plain";
@@ -738,7 +738,7 @@ loadmodule "modules/groupserv/set_url";
 /*
  * Various modules.
  *
- * Atheme includes an optional HTTP server that can be used for integration
+ * Zohlai includes an optional HTTP server that can be used for integration
  * with portal software and other useful things. To enable it, load this
  * module, and uncomment the httpd { } block towards the bottom of the config.
  *
@@ -747,7 +747,7 @@ loadmodule "modules/groupserv/set_url";
 loadmodule "modules/misc/httpd";
 
 /* XMLRPC server module.
- * 
+ *
  * The XML-RPC handler requires modules/misc/httpd to be loaded as it merely
  * registers a path handler for XML-RPC. The path used for XML-RPC is /xmlrpc.
  *
@@ -757,7 +757,7 @@ loadmodule "modules/transport/xmlrpc";
 
 /* Extended target entity types. [EXPERIMENTAL]
  *
- * Atheme can set up special target mapping entities which match multiple
+ * Zohlai can set up special target mapping entities which match multiple
  * users in channel access entries.  These target mapping entity types are
  * defined through the 'exttarget' modules listed below.
  *
@@ -778,7 +778,7 @@ loadmodule "modules/transport/xmlrpc";
 /* Other modules.
  *
  * Put any other modules you want to load on startup here. The path
- * is relative to PREFIX or PREFIX/lib/atheme, depending on how Atheme
+ * is relative to PREFIX or PREFIX/lib/zohlai, depending on how Zohlai
  * was compiled.
  */
 #loadmodule "modules/contrib/ns_listlogins";
@@ -795,17 +795,17 @@ serverinfo {
 	 * unique on the IRC network and contain at least one dot, but does
 	 * not have to be equal to any DNS name.
 	 */
-	name = "services.int";
+	name = "services.";
 
 	/* desc
 	 * The ``server comment'' we send to the IRC network.
 	 */
-	desc = "Atheme IRC Services";
+	desc = "Zohlai IRC Services";
 
 	/* numeric
 	 * Some protocol drivers (Charybdis, Ratbox2, Hybrid, P10, IRCNet)
 	 * require a server id, also known as a numeric. Please consult your
-	 * ircd's documentation when providing this value. 
+	 * ircd's documentation when providing this value.
 	 */
 	numeric = "00A";
 
@@ -843,7 +843,7 @@ serverinfo {
 	registeremail = "noreply@admin.tld";
 
 	/* (*)hidden
-	 * If this is enabled, Atheme will indicate to the uplink IRCd
+	 * If this is enabled, Zohlai will indicate to the uplink IRCd
 	 * that it should not be included in /links output.  This only works
 	 * on the following IRCds at present: charybdis, hybrid, ircd-seven,
 	 * ratbox, shadowircd.
@@ -861,7 +861,7 @@ serverinfo {
 
 	/* (*)loglevel
 	 * Specify the default categories of logging information to record
-	 * in the master Atheme logfile, usually var/atheme.log.
+	 * in the master Zohlai logfile, usually var/zohlai.log.
 	 *
 	 * Options include:
 	 *      debug, all      - meta-keyword for all possible categories
@@ -910,7 +910,7 @@ serverinfo {
 
 	/* (*)auth
 	 * What type of username registration authorization do you want?
-	 * If "email", Atheme will send a confirmation email to the address to
+	 * If "email", Zohlai will send a confirmation email to the address to
 	 * ensure it's valid. If registration is not completed within one day,
 	 * the username will expire. If "none", no message will be sent and
 	 * the username will be fully registered.
@@ -929,8 +929,8 @@ serverinfo {
 
 /* uplink{} blocks define connections to IRC servers.
  * Multiple may be defined but only one will be used at a time (IRC
- * being a tree shaped network). Atheme does not currently link over SSL.
- * To link Atheme over ssl, please connect Atheme to a local ircd and have that
+ * being a tree shaped network). Zohlai does not currently link over SSL.
+ * To link Zohlai over ssl, please connect Zohlai to a local ircd and have that
  * connect to your network over SSL.
  */
 uplink "irc.example.net" {
@@ -1001,7 +1001,7 @@ nickserv {
 	#no_nick_ownership;
 
 	/* (*)nick
-	 * The nickname we want NickServ to have. 
+	 * The nickname we want NickServ to have.
 	 */
 	nick = "NickServ";
 
@@ -1059,7 +1059,7 @@ nickserv {
 	 * on nicks.
 	 */
 	#enforce_delay = 30;
-	
+
 	/* (*)enforce_prefix
 	 * The prefix to use when changing the user's nick on enforcement
 	 */
@@ -1073,8 +1073,8 @@ nickserv {
 	#cracklib_dict = "/var/cache/cracklib/cracklib_dict";
 
 	/* (*)cracklib_warn
-	 * If this option is set and nickserv/cracklib is loaded, nickserv will just 
-	 * warn users that their password is insecure, recommend they change it and 
+	 * If this option is set and nickserv/cracklib is loaded, nickserv will just
+	 * warn users that their password is insecure, recommend they change it and
 	 * still register the nick. If this option is unset, it will refuse to
 	 * register the nick at all until the user chooses a better password.
 	 */
@@ -1122,7 +1122,7 @@ chanserv {
 	 */
 	aliases {
 	};
-	
+
 	/* (*)access
 	 * Command access changes for ChanServ.
 	 */
@@ -1155,9 +1155,9 @@ chanserv {
 	 * except that hop may be equal to vop to disable hop.
 	 * Each subsequent level should have more flags (except +VHO).
 	 * For optimal functioning of /cs forcexop, aop should not have
-	 * any of +sRf, hop should not have any of +sRfoOr and vop should 
+	 * any of +sRf, hop should not have any of +sRfoOr and vop should
 	 * not have any of +sRfoOrhHt.
-	 * If this is not specified, the values of Atheme 0.3 are used,
+	 * If this is not specified, the values of Zohlai 0.3 are used,
 	 * which are generally less intuitive than these.
 	 * Note: changing these leaves the flags of existing channel access
 	 * entries unchanged, thus removing them of the view of /cs xop list.
@@ -1237,7 +1237,7 @@ chanserv {
 	/* (*)founder_flags
 	 * The flags a user will get when they register a new channel.
 	 * This MUST include at least 'F' or it will be ignored.
-	 * If it is not set, Atheme will give the user all channel flags.
+	 * If it is not set, Zohlai will give the user all channel flags.
 	 */
 	#founder_flags = "AFORfiorstv";
 
@@ -1389,7 +1389,7 @@ operserv {
 	 */
 	aliases {
 	};
-	
+
 	/* (*)access
 	 * Command access changes for OperServ.
 	 */
@@ -1459,7 +1459,7 @@ memoserv {
 	 */
 	aliases {
 	};
-	
+
 	/* (*)access
 	 * Command access changes for MemoServ.
 	 */
@@ -1504,7 +1504,7 @@ gameserv {
 	 */
 	aliases {
 	};
-	
+
 	/* (*)access
 	 * Command access changes for GameServ.
 	 */
@@ -1544,7 +1544,7 @@ rpgserv {
 	 */
 	aliases {
 	};
-	
+
 	/* (*)access
 	 * Command access changes for RPGServ.
 	 */
@@ -1619,7 +1619,7 @@ groupserv {
 	 */
 	aliases {
 	};
-	
+
 	/* (*)access
 	 * Command access changes for GroupServ.
 	 */
@@ -1693,7 +1693,7 @@ hostserv {
 		"APPROVE" = "ACTIVATE";
 		"DENY" = "REJECT";
 	};
-	
+
 	/* (*)access
 	 * Command access changes for HostServ.
 	 */
@@ -1798,7 +1798,7 @@ httpd {
 	host = "0.0.0.0";
 
 	/* host (ipv6)
-	 * If you want, you can have Atheme listen on an IPv6 host too.
+	 * If you want, you can have Zohlai listen on an IPv6 host too.
 	 * Use :: if you want to listen on all available IPv6 hosts.
 	 */
 	#host = "::";
@@ -1942,12 +1942,12 @@ general {
 	 * If you use ircu-like ircd (asuka, bircd, undernet), you must
 	 * leave this enabled, and put guard in default cflags.
 	 *
-	 * For ratbox it is recommended to leave it on and put guard in 
+	 * For ratbox it is recommended to leave it on and put guard in
 	 * default cflags, in order that ChanServ does not have to join/part
 	 * to do certain things. On the other hand, enabling this increases
 	 * potential for bots fighting with ChanServ.
 	 *
-	 * Regardless of this option, ChanServ will temporarily join 
+	 * Regardless of this option, ChanServ will temporarily join
 	 * channels which would otherwise be empty if necessary to enforce
 	 * akick/restricted/close, and to change the TS if changets is
 	 * enabled.
@@ -2014,7 +2014,7 @@ general {
 	 * After `ratelimit_uses' of a command within `ratelimit_period', users
 	 * will not be able to run that ratelimited command until the period is up.
 	 * Comment this, ratelimit_period below or both options out to disable rate limiting.
-	 * Currently used in helpserv/helpme, helpserv/ticket, hostserv/request, 
+	 * Currently used in helpserv/helpme, helpserv/ticket, hostserv/request,
 	 * nickserv/register and chanserv/register.
 	 */
 	ratelimit_uses = 5;
@@ -2024,7 +2024,7 @@ general {
 	 * After `ratelimit_uses' of a command within `ratelimit_period', users
 	 * will not be able to run that ratelimited command until the period is up.
 	 * Comment this, ratelimit_uses above or both options out to disable rate limiting.
-	 * Currently used in helpserv/helpme, helpserv/ticket, hostserv/request, 
+	 * Currently used in helpserv/helpme, helpserv/ticket, hostserv/request,
 	 * nickserv/register and chanserv/register.
 	 */
 	ratelimit_period = 60;
@@ -2081,7 +2081,7 @@ general {
 	/* (*)uplink_sendq_limit
 	 * The maximum amount of data that may be queued to be sent
 	 * to the uplink, in bytes. This should be enough to contain
-	 * Atheme's response to the netburst, but smaller than the
+	 * Zohlai's response to the netburst, but smaller than the
 	 * IRCd's sendq limit for servers.
 	 */
 	uplink_sendq_limit = 1048576;
@@ -2100,7 +2100,7 @@ general {
 	};
 
 	/* allow_taint
-	 * By enabling this option, Atheme will run in configurations where
+	 * By enabling this option, Zohlai will run in configurations where
 	 * the upstream will not provide support.  By enabling this feature,
 	 * you void any perceived rights to support.
 	 */
@@ -2114,7 +2114,7 @@ general {
 	 *    immune - require whatever ircd usermode is needed for kick
 	 *             immunity (this is the default);
 	 *    admin  - require admin privileges for kick immunity
-	 *    ircop  - require any ircop privileges for kick immunity (umode +o) 
+	 *    ircop  - require any ircop privileges for kick immunity (umode +o)
 	 */
 	immune_level = immune;
 
@@ -2132,7 +2132,7 @@ general {
 /* Operator configuration
  * See the PRIVILEGES document for more information.
  * NOTE: All changes apply immediately upon rehash. You may need
- * to send a signal (killall -HUP atheme-services) to regain control.
+ * to send a signal (killall -HUP zohlai-services) to regain control.
  */
 /* (*) Operclasses specify groups of services operator privileges */
 /* The "user" operclass specifies privileges all users get.

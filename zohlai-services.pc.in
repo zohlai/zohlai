@@ -13,4 +13,3 @@ Description: Atheme IRC services (for building modules)
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lathemecore
 Cflags: -I${includedir}
-
