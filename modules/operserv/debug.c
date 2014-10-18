@@ -104,7 +104,7 @@ static void os_cmd_ffnc(sourceinfo_t *si, int parc, char *parv[])
 	}
 }
 
-static void os_cmd_tempvhost(sourceinfo *si, int parc, char *parv[])
+static void os_cmd_tempvhost(sourceinfo_t *si, int parc, char *parv[])
 {
 	char *target = parv[0];
 	char *newvhost = parv[1];
