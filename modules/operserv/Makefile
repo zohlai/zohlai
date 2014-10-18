@@ -14,6 +14,7 @@ SRCS = \
 	clearchan.c	\
 	clones.c	\
 	compare.c	\
+	debug.c		\
 	greplog.c	\
 	help.c	\
 	identify.c	\
