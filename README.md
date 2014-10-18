@@ -27,5 +27,5 @@ If you're still lost, read [INSTALL](INSTALL) or [GIT-Access](GIT-Access) for hi
 
 ## Contact us
 
- * [GitHub](http://www.github.com/zohlai/zohlai)
+ * [GitHub](https://www.github.com/zohlai/zohlai)
  * [IRC](irc://chat.freenode.net/#zohlai) - #zohlai on chat.freenode.net

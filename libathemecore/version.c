@@ -73,6 +73,6 @@ const char *infotext[] =
   "  rintaun, Matt Lanigan <rintaun@projectxero.net>",
   "  sycobuny, Stephen Belcher <sycobuny@malkier.net>",
   " ",
-  "Visit our website at http://github.com/zohlai/zohlai",
+  "Find the project at https://github.com/zohlai/zohlai",
   0,
 };
