@@ -6,11 +6,13 @@ compiler:
 matrix:
   fast_finish: true
   allow_failures:
-    - env: OPTIONAL_CONF_ARGS="--with-contrib"
+    - env: OPTIONAL_CONF_ARGS="--enable-contrib"
+    - env: OPTIONAL_CONF_ARGS="--enable-exya"
 env:
   - OPTIONAL_CONF_ARGS=""
   - OPTIONAL_CONF_ARGS="--with-perl"
-  - OPTIONAL_CONF_ARGS="--with-contrib"
+  - OPTIONAL_CONF_ARGS="--enable-contrib"
+  - OPTIONAL_CONF_ARGS="--enable-exya"
 install:
   - sudo apt-get update -qq
   - sudo apt-get install -q -y libperl-dev

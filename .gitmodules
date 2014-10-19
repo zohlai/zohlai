@@ -7,3 +7,6 @@
 [submodule "modules/contrib"]
 	path = modules/contrib
 	url = https://github.com/zohlai/zohlai-contrib-modules.git
+[submodule "modules/exya"]
+	path = modules/exya
+	url = https://github.com/zohlai/exya.git

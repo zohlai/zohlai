@@ -636,6 +636,7 @@ MOWGLI_CFLAGS
 LIBQRENCODE_LIBS
 LIBQRENCODE_CFLAGS
 SSL_LIBS
+EXYA_ENABLE
 CONTRIB_ENABLE
 LOCALEDIR
 BUILDDIR
@@ -776,6 +777,7 @@ with_perl
 enable_fhs_paths
 enable_large_net
 enable_contrib
+enable_exya
 enable_ssl
 enable_warnings
 enable_propolice
@@ -1417,6 +1419,7 @@ Optional Features:
   --enable-fhs-paths      Use more FHS-like pathnames (for packagers).
   --enable-large-net      Enable large network support.
   --enable-contrib        Enable contrib modules.
+  --enable-exya           Enable exya modules.
   --disable-ssl           don't use OpenSSL to provide more SASL mechanisms
   --enable-warnings       Enable compiler warnings
   --disable-propolice     Disable propolice protections (for debugging.)
@@ -8096,6 +8099,34 @@ fi
 
 
 
+EXYA="no"
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if you want exya modules" >&5
+$as_echo_n "checking if you want exya modules... " >&6; }
+# Check whether --enable-exya was given.
+if test "${enable_exya+set}" = set; then :
+  enableval=$enable_exya;
+  case "$enableval" in
+  yes)
+    EXYA="yes"
+    ;;
+  no)
+    EXYA="no"
+    ;;
+  esac
+
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $EXYA" >&5
+$as_echo "$EXYA" >&6; }
+
+if test "$EXYA" = "yes"; then
+	EXYA_ENABLE="exya"
+else
+	EXYA_ENABLE=""
+fi
+
+
+
 # Check whether --enable-ssl was given.
 if test "${enable_ssl+set}" = set; then :
   enableval=$enable_ssl;
@@ -11490,6 +11521,7 @@ Configuration:
 	Large network support: ${LARGENET}
 	OpenSSL SASL support : ${SSL}
 	Contrib modules      : ${CONTRIB}
+	Exya modules         : ${EXYA}
 	Mowgli installation  : ${MOWGLI_SOURCE}
 	PCRE support         : ${with_pcre}
 	Perl support         : ${with_perl}

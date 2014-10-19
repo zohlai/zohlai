@@ -250,6 +250,30 @@ fi
 
 AC_SUBST(CONTRIB_ENABLE)
 
+EXYA="no"
+AC_MSG_CHECKING(if you want exya modules)
+AC_ARG_ENABLE(exya,
+AC_HELP_STRING([--enable-exya],[ Enable exya modules.]),
+[
+  case "$enableval" in
+  yes)
+    EXYA="yes"
+    ;;
+  no)
+    EXYA="no"
+    ;;
+  esac
+])
+AC_MSG_RESULT($EXYA)
+
+if test "$EXYA" = "yes"; then
+	EXYA_ENABLE="exya"
+else
+	EXYA_ENABLE=""
+fi
+
+AC_SUBST(EXYA_ENABLE)
+
 AC_ARG_ENABLE(ssl,
 	AC_HELP_STRING([--disable-ssl], [don't use OpenSSL to provide more SASL mechanisms]),
 	,
@@ -440,6 +464,7 @@ Configuration:
 	Large network support: ${LARGENET}
 	OpenSSL SASL support : ${SSL}
 	Contrib modules      : ${CONTRIB}
+	Exya modules         : ${EXYA}
 	Mowgli installation  : ${MOWGLI_SOURCE}
 	PCRE support         : ${with_pcre}
 	Perl support         : ${with_perl}

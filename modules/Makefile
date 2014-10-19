@@ -25,7 +25,8 @@ SUBDIRS = \
 	statserv \
 	scripting \
 	transport \
-	$(CONTRIB_ENABLE)
+	$(CONTRIB_ENABLE) \
+	$(EXYA_ENABLE)
 
 include ../extra.mk
 include ../buildsys.mk
