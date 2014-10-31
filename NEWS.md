@@ -1,3 +1,33 @@
+Zohlai Services 1.0 Development Notes
+=====================================
+
+This is the first release series of Zohlai.
+
+nickserv
+--------
+- Add SET PUBKEY module, which allows the user to set their ECC NIST256p public key for used
+  for SASL ECDSA-NIST256p-CHALLENGE authentication.
+
+operserv
+--------
+- operserv/debug: add a module for some debugging commands (FNC, TEMPVHOST)
+- operserv/akill: use get_kline_userhost if nick is given
+- operserv/akill: allow akilling unsafe masks
+
+ircd protocol
+-------------
+- neephi: add initial version of protocol module for [neephi](https://github.com/zohlai/neephi)
+
+libathemecore
+-------------
+- libathemecore: add get_kline_userhost function
+- Try to use operserv for flood klines
+- libathemecore: s2s linking: fix default server description
+
+misc
+----
+- modules: add automated klines to the AKILL list
+
 Atheme Services 7.2 Development Notes
 =====================================
 
