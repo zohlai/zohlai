@@ -853,6 +853,12 @@ serverinfo {
 	 */
 	#hidden;
 
+	/* (*)nowhoisoperator
+	 * If this is enabled, Zohlai won't send the "is an IRC Operator" line
+	 * in WHOIS.
+	 */
+	#nowhoisoperator;
+
 	/* (*)mta
 	 * The full path to your mail transfer agent.
 	 * This is used for email authorization and password retrieval.

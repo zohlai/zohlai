@@ -59,6 +59,7 @@ struct me
   char *register_email;         /* from address on e-mails            */
 
   bool hidden;			/* whether or not we should hide ourselves in /links (if the ircd supports it) */
+  bool nowhoisoperator; 	/* whether or not we should hide operator status in /whois */
 };
 
 E me_t me;
