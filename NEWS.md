@@ -7,6 +7,8 @@ nickserv
 --------
 - Add SET PUBKEY module, which allows the user to set their ECC NIST256p public key for used
   for SASL ECDSA-NIST256p-CHALLENGE authentication.
+- nickserv/set_accountname: Set accountname to current nick if the current nick is grouped
+  and the account argument is not given.
 
 operserv
 --------
@@ -23,6 +25,7 @@ libathemecore
 - libathemecore: add get_kline_userhost function
 - Try to use operserv for flood klines
 - libathemecore: s2s linking: fix default server description
+- libathemecore: add option to hide RPL_WHOISOPERATOR for non-services
 
 misc
 ----

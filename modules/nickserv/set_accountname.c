@@ -42,11 +42,7 @@ static void ns_cmd_set_accountname(sourceinfo_t *si, int parc, char *parv[])
 	mynick_t *mn;
 
 	if (!newname)
-	{
-		command_fail(si, fault_needmoreparams, STR_INSUFFICIENT_PARAMS, "ACCOUNTNAME");
-		command_fail(si, fault_needmoreparams, _("Syntax: SET ACCOUNTNAME <nick>"));
-		return;
-	}
+		newname = si->su->nick;
 
 	if (is_conf_soper(si->smu))
 	{

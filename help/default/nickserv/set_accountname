@@ -5,4 +5,7 @@ name to any nick registered to your account.
 Your account name is used in various places as
 a name for you.
 
-Syntax: SET ACCOUNTNAME <nick>
+If the <nick> argument is not given, services try
+to set the current nick if grouped to your account.
+
+Syntax: SET ACCOUNTNAME [<nick>]
