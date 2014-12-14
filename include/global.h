@@ -60,6 +60,7 @@ struct me
 
   bool hidden;			/* whether or not we should hide ourselves in /links (if the ircd supports it) */
   bool nowhoisoperator; 	/* whether or not we should hide operator status in /whois */
+  bool verbose_ops_private;	/* whether or not we should send VERBOSE OPS notices in private instead of using wallchops() */
 };
 
 E me_t me;

@@ -348,6 +348,9 @@ void verbose(mychan_t *mychan, const char *fmt, ...)
 	va_list ap;
 	char buf[BUFSIZE];
 
+	myuser_t *tmu;
+	mowgli_node_t *tn;
+
 	if (mychan->chan == NULL)
 		return;
 
@@ -358,7 +361,23 @@ void verbose(mychan_t *mychan, const char *fmt, ...)
 	if ((MC_VERBOSE | MC_FORCEVERBOSE) & mychan->flags)
 		notice(chansvs.nick, mychan->name, "%s", buf);
 	else if (MC_VERBOSE_OPS & mychan->flags)
-		wallchops(chansvs.me->me, mychan->chan, buf);
+	{
+		if (me.verbose_ops_private)
+		{
+			MOWGLI_ITER_FOREACH(tn, mychan->chanacs.head)
+			{
+				chanacs_t *ca = (chanacs_t *) tn->data;
+				tmu = isuser(ca->entity) ? user(ca->entity) : NULL;
+
+				if (!(ca->level & (CA_OP | CA_AUTOOP)) || tmu == NULL)
+					continue;
+
+				myuser_notice(chansvs.nick, tmu, "[%s] %s", mychan->name, buf);
+			}
+		}
+		else
+			wallchops(chansvs.me->me, mychan->chan, buf);
+	}
 }
 
 /* protocol wrapper for nickchange/nick burst */

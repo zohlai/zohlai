@@ -220,6 +220,7 @@ void init_newconf(void)
 	add_conf_item("CASEMAPPING", &conf_si_table, c_si_casemapping);
 	add_bool_conf_item("HIDDEN", &conf_si_table, 0, &me.hidden, false);
 	add_bool_conf_item("NOWHOISOPERATOR", &conf_si_table, 0, &me.nowhoisoperator, false);
+	add_bool_conf_item("VERBOSE_OPS_PRIVATE", &conf_si_table, 0, &me.verbose_ops_private, false);
 
 	/* general{} block */
 	add_dupstr_conf_item("HELPCHAN", &conf_gi_table, 0, &config_options.helpchan, NULL);
