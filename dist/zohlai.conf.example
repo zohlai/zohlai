@@ -865,7 +865,7 @@ serverinfo {
 	 * Due to looping through the whole ACL, this could be potentially abused for
 	 * Denial-of-Service attacks and therefore is disabled by default.
 	 */
-	#verbose_osp_private
+	#verbose_ops_private
 
 	/* (*)mta
 	 * The full path to your mail transfer agent.
