@@ -60,6 +60,7 @@ BASE_SRCS =			\
 	set_pubkey.c	\
 	set_quietchg.c	\
 	setpass.c	\
+	staff.c		\
 	status.c	\
 	taxonomy.c	\
 	vacation.c	\

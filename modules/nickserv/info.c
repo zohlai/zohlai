@@ -437,6 +437,22 @@ static void ns_cmd_info(sourceinfo_t *si, int parc, char *parv[])
 		command_success_nodata(si, _("%s was \2MARKED\2 by %s on %s (%s)"), entity(mu)->name, setter, strfbuf, reason);
 	}
 
+	if (has_user_auspex && (md = metadata_find(mu, "private:staff:setter")))
+	{
+		const char *setter = md->value;
+		time_t ts;
+
+		md = metadata_find(mu, "private:staff:timestamp");
+		ts = md != NULL ? atoi(md->value) : 0;
+
+		tm = *localtime(&ts);
+		strftime(strfbuf, sizeof strfbuf, TIME_FORMAT, &tm);
+
+		command_success_nodata(si, _("%s was granted the \2STAFF\2 flag by %s on %s"), entity(mu)->name, setter, strfbuf);
+	}
+	else if (metadata_find(mu, "private:staff:setter"))
+		command_success_nodata(si, _("%s is a member of staff."), entity(mu)->name);
+
 	if (MU_WAITAUTH & mu->flags)
 		command_success_nodata(si, _("%s has \2NOT COMPLETED\2 registration verification"), entity(mu)->name);
 
