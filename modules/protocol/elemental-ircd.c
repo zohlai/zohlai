@@ -93,11 +93,12 @@ struct cmode_ elemental_prefix_mode_list[] = {
 };
 
 struct cmode_ elemental_user_mode_list[] = {
-  { 'a', UF_ADMIN    },
-  { 'i', UF_INVIS    },
-  { 'o', UF_IRCOP    },
-  { 'D', UF_DEAF     },
-  { 'S', UF_SERVICE  },
+  { 'a', UF_ADMIN     },
+  { 'i', UF_INVIS     },
+  { 'o', UF_IRCOP     },
+  { 'D', UF_DEAF      },
+  { 'S', UF_SERVICE   },
+  { 'Z', UF_SSLCLIENT },
   { '\0', 0 }
 };
 

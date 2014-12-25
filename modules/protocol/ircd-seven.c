@@ -71,12 +71,13 @@ struct cmode_ seven_mode_list[] = {
 };
 
 struct cmode_ seven_user_mode_list[] = {
-  { 'p', UF_IMMUNE   },
-  { 'a', UF_ADMIN    },
-  { 'i', UF_INVIS    },
-  { 'o', UF_IRCOP    },
-  { 'D', UF_DEAF     },
-  { 'S', UF_SERVICE  },
+  { 'p', UF_IMMUNE    },
+  { 'a', UF_ADMIN     },
+  { 'i', UF_INVIS     },
+  { 'o', UF_IRCOP     },
+  { 'D', UF_DEAF      },
+  { 'S', UF_SERVICE   },
+  { 'Z', UF_SSLCLIENT },
   { '\0', 0 }
 };
 

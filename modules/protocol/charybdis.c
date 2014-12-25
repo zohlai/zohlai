@@ -90,12 +90,13 @@ struct cmode_ charybdis_prefix_mode_list[] = {
 };
 
 struct cmode_ charybdis_user_mode_list[] = {
-  { 'p', UF_IMMUNE   },
-  { 'a', UF_ADMIN    },
-  { 'i', UF_INVIS    },
-  { 'o', UF_IRCOP    },
-  { 'D', UF_DEAF     },
-  { 'S', UF_SERVICE  },
+  { 'p', UF_IMMUNE    },
+  { 'a', UF_ADMIN     },
+  { 'i', UF_INVIS     },
+  { 'o', UF_IRCOP     },
+  { 'D', UF_DEAF      },
+  { 'S', UF_SERVICE   },
+  { 'Z', UF_SSLCLIENT },
   { '\0', 0 }
 };
 
