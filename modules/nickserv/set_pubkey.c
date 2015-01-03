@@ -48,7 +48,7 @@ static void ns_cmd_set_pubkey(sourceinfo_t *si, int parc, char *parv[])
 
 		if (!md)
 		{
-			command_fail(si, fault_nosuch_target, _("Public key was not set"));
+			command_fail(si, fault_nosuch_target, _("Public key was not set."));
 			return;
 		}
 
