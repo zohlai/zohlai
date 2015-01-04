@@ -67,6 +67,7 @@ CODE:
 	mowgli_node_t *n;
 	user_t *u;
 	char timestring[16];
+	char newhost[HOSTLEN];
 
 	snprintf(timestring, 16, "%lu", (unsigned long)time(NULL));
 
@@ -77,6 +78,8 @@ CODE:
 	MOWGLI_ITER_FOREACH(n, self->logins.head)
 	{
         u = n->data;
+        mowgli_strlcpy(newhost, host, HOSTLEN);
+        find_best_vhost(u, newhost);
         user_sethost(nicksvs.me->me, u, host);
 	}
 
