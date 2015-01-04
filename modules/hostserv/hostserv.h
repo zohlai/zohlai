@@ -25,14 +25,18 @@ typedef struct {
  */
 static inline void do_sethost(user_t *u, const char *host)
 {
+	char newhost[HOSTLEN];
 	service_t *svs;
 
-        if (!strcmp(u->vhost, host ? host : u->host))
+	mowgli_strlcpy(newhost, host, HOSTLEN);
+	find_best_vhost(u, newhost);
+
+        if (!strcmp(u->vhost, newhost))
                 return;
 
 	svs = service_find("hostserv");
 
-        user_sethost(svs->me, u, host ? host : u->host);
+        user_sethost(svs->me, u, newhost);
 }
 
 /*
@@ -60,7 +64,7 @@ static inline void do_sethost_all(myuser_t *mu, const char *host)
         {
                 u = n->data;
 
-                do_sethost(u, host);
+                do_sethost(u, host ? host : u->host);
         }
 }
 

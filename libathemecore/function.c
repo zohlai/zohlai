@@ -884,6 +884,15 @@ void get_kline_userhost(user_t *u, char *user, char *host)
 	hook_call_user_get_banmask(&hdata);
 }
 
+void find_best_vhost(user_t *u, char *newhost)
+{
+	hook_user_find_best_vhost_t hdata = { u, newhost };
+
+	mowgli_strlcpy(hdata.newhost, newhost, HOSTLEN);
+
+	hook_call_user_find_best_vhost(&hdata);
+}
+
 /* vim:cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
  * vim:ts=8
  * vim:sw=8

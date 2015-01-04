@@ -86,5 +86,6 @@ operserv_info	  sourceinfo_t *
 module_load        hook_module_load_t *
 myentity_find      hook_myentity_req_t *
 user_get_banmask   hook_user_get_banmask_t *
+user_find_best_vhost  hook_user_find_best_vhost_t *
 # (sasl)
 sasl_may_impersonate	hook_sasl_may_impersonate_t *

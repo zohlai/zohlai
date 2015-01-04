@@ -363,6 +363,11 @@ typedef struct {
 	int allowed;
 } hook_user_needforce_t;
 
+typedef struct {
+	user_t *u;
+	char *newhost;
+} hook_user_find_best_vhost_t;
+
 /* pmodule.c XXX */
 E bool backend_loaded;
 
@@ -373,6 +378,7 @@ E void (*db_load)(const char *arg);
 /* function.c */
 E bool is_founder(mychan_t *mychan, myentity_t *myuser);
 E void get_kline_userhost(user_t *u, char *user, char *host);
+E void find_best_vhost(user_t *u, char *newhost);
 
 /* node.c */
 E mowgli_list_t klnlist;

@@ -40,10 +40,15 @@ void _moddeinit(module_unload_intent_t intent)
 
 static void do_sethost(user_t *u, stringref host)
 {
-	if (!strcmp(u->vhost, host))
+	char newhost[HOSTLEN];
+
+	mowgli_strlcpy(newhost, host, HOSTLEN);
+	find_best_vhost(u, newhost);
+
+	if (!strcmp(u->vhost, newhost))
 		return;
 
-	user_sethost(nicksvs.me->me, u, host);
+	user_sethost(nicksvs.me->me, u, newhost);
 }
 
 static void do_sethost_all(myuser_t *mu, stringref host)
