@@ -1,4 +1,5 @@
-dnl Copyright (c) 2014 Zohlai Development Group
+dnl Copyright (c) 2014-2015 Zohlai Development Group
+dnl Copyright (c) 2005 Atheme Development Group
 dnl Rights to this code are documented in doc/LICENSE.
 dnl
 dnl This file is the autoconf stub.
@@ -7,7 +8,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
 
-AC_INIT(zohlai, 1.0.0-beta1, max@teufelsnetz.com)
+AC_INIT(zohlai, 8.0-dev, max@teufelsnetz.com)
 
 AC_CONFIG_AUX_DIR(autoconf)
 
