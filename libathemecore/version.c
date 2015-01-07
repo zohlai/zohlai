@@ -13,8 +13,8 @@ const char *revision = SERNO;
 const char *infotext[] =
 {
   "Zohlai IRC Services --",
-  "Copyright (c) 2014 Zohlai Development Group",
-  "Copyright (c) 2005-2013 Atheme Development Group (http://www.atheme.org)",
+  "Copyright (c) 2014-2015 Zohlai Development Group",
+  "Copyright (c) 2005-2015 Atheme Development Group (http://www.atheme.org)",
   "Portions copyright (c) 2004 Shrike Developers (http://www.malkier.net)",
   " ",
   "Permission to use, copy, modify, and/or distribute this software for any",
@@ -34,7 +34,7 @@ const char *infotext[] =
   " ",
   "Currently Zohlai's core group consists of the following developers,",
   "in nick-alphabetical order:",
-  "  mt, Max Teufel <max@teufelsnetz.com>",
+  "  mteufel, Max Teufel <max@teufelsnetz.com>",
   " ",
   "The following people have contributed blood, sweat and tears to",
   "this Zohlai release:",
