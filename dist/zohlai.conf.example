@@ -1197,9 +1197,9 @@ chanserv {
 		vop = "+AV";
 		hop = "+AHhitrv";
 		aop = "+AOhiortv";
-		sop = "+AOafhiorstv";
+		sop = "+AOaefhiorstv";
 
-		founder = "+AFORafhiorstv";
+		founder = "+AFORaefhiorstv";
 
 		/* some examples (which are commented out...) */
 		#member = "+Ai";
