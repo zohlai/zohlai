@@ -867,7 +867,12 @@ serverinfo {
 	 * Due to looping through the whole ACL, this could be potentially abused for
 	 * Denial-of-Service attacks and therefore is disabled by default.
 	 */
-	#verbose_ops_private
+	#verbose_ops_private;
+
+	/* (*)iso8601_log
+	 * Use ISO 8601 in log files. Disabled if not set.
+	 */
+	iso8601_log;
 
 	/* (*)mta
 	 * The full path to your mail transfer agent.

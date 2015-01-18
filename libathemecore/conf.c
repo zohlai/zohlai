@@ -221,6 +221,7 @@ void init_newconf(void)
 	add_bool_conf_item("HIDDEN", &conf_si_table, 0, &me.hidden, false);
 	add_bool_conf_item("NOWHOISOPERATOR", &conf_si_table, 0, &me.nowhoisoperator, false);
 	add_bool_conf_item("VERBOSE_OPS_PRIVATE", &conf_si_table, 0, &me.verbose_ops_private, false);
+	add_bool_conf_item("ISO8601_LOG", &conf_si_table, 0, &me.iso8601_log, false);
 
 	/* general{} block */
 	add_dupstr_conf_item("HELPCHAN", &conf_gi_table, 0, &config_options.helpchan, NULL);
