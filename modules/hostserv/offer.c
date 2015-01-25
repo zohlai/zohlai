@@ -346,6 +346,9 @@ static void hs_cmd_take(sourceinfo_t *si, int parc, char *parv[])
 			if (strstr(host, "$account"))
 				replace(host, BUFSIZE, "$account", entity(si->smu)->name);
 
+			if (strstr(host, "$entityid"))
+				replace(host, BUFSIZE, "$entityid", entity(si->smu)->id);
+
 			if (!check_vhost_validity(si, host))
 				return;
 
