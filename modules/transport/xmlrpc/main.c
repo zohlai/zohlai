@@ -635,6 +635,7 @@ static int xmlrpcmethod_metadata(void *conn, int parc, char *parv[])
  *       fault 4 - not enough parameters
  *       fault 5 - user is on IRC (would be unfair to claim ownership)
  *       fault 6 - too many accounts associated with this email
+ *       fault 7 - invalid username
  *       default - success message
  *
  * Side Effects:
@@ -650,6 +651,12 @@ static int xmlrpcmethod_register(void *conn, int parc, char *parv[])
 	if (parc < 3)
 	{
 		xmlrpc_generic_error(4, "Insufficient parameters.");
+		return 0;
+	}
+
+	if (!is_valid_username(parv[0]))
+	{
+		xmlrpc_generic_error(7, "Invalid username");
 		return 0;
 	}
 
