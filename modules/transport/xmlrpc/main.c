@@ -634,7 +634,7 @@ static int xmlrpcmethod_metadata(void *conn, int parc, char *parv[])
  *       fault 3 - invalid email address
  *       fault 4 - not enough parameters
  *       fault 5 - user is on IRC (would be unfair to claim ownership)
- *       fault 6 - too many accounts associated with this email
+ *       fault 6 - too many accounts associated with this email (not used!)
  *       fault 7 - invalid username
  *       default - success message
  *
@@ -670,8 +670,8 @@ static int xmlrpcmethod_register(void *conn, int parc, char *parv[])
 		xmlrpc_generic_error(1, "The account is already registered.");
 		return 0;
 	}
-	/* We explicitely do not check for a vaild e-mail-address or
-	 * weather the number of times the e-mail-address has been used is
+	/* We explicitely do not check for a vaild email address or
+	 * whether the number of times the email address has been used is
 	 * exceeded. This is the responsibility of the caller, which may have
 	 * good reasons to break these limits, such as anonymous registration
 	 * via hashcash. */
