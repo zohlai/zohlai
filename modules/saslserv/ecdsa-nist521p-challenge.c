@@ -17,7 +17,7 @@
 #include <openssl/rand.h>
 #include <openssl/sha.h>
 
-#define CHALLENGE_LENGTH	SHA256_DIGEST_LENGTH
+#define CHALLENGE_LENGTH	SHA512_DIGEST_LENGTH
 #define CURVE_IDENTIFIER	NID_secp521r1
 
 DECLARE_MODULE_V1
