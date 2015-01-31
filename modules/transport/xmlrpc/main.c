@@ -630,12 +630,12 @@ static int xmlrpcmethod_metadata(void *conn, int parc, char *parv[])
  *       verification key (optional)
  *
  * XML Outputs:
- *       fault 1 - account already exists, please try another name
- *       fault 3 - invalid email address
- *       fault 4 - not enough parameters
- *       fault 5 - user is on IRC (would be unfair to claim ownership)
- *       fault 6 - too many accounts associated with this email (not used!)
- *       fault 7 - invalid username
+ *       fault 1 - insufficient parameters
+ *       fault 2 - invalid username or email
+ *       fault 6 - user is on IRC (would be unfair to claim ownership)
+ *       fault 8 - account already exists
+ *       fault 9 - too many accounts associated with this email (not used!)
+ *       fault 10 - emailfail (sending the mail failed)
  *       default - success message
  *
  * Side Effects:
@@ -650,24 +650,24 @@ static int xmlrpcmethod_register(void *conn, int parc, char *parv[])
 	*buf = '\0';
 	if (parc < 3)
 	{
-		xmlrpc_generic_error(4, "Insufficient parameters.");
+		xmlrpc_generic_error(1, "Insufficient parameters.");
 		return 0;
 	}
 
 	if (!is_valid_username(parv[0]))
 	{
-		xmlrpc_generic_error(7, "Invalid username");
+		xmlrpc_generic_error(2, "Invalid username");
 		return 0;
 	}
 
 	if ((nicksvs.no_nick_ownership == FALSE) && (user_find(parv[0]) != NULL))
 	{
-		xmlrpc_generic_error(5, "A user matching this account is already on IRC.");
+		xmlrpc_generic_error(6, "A user matching this account is already on IRC.");
 		return 0;
 	}
 	if ((mu = myuser_find(parv[0])) != NULL)
 	{
-		xmlrpc_generic_error(1, "The account is already registered.");
+		xmlrpc_generic_error(8, "The account is already registered.");
 		return 0;
 	}
 	/* We explicitely do not check for a vaild email address or
@@ -691,7 +691,7 @@ static int xmlrpcmethod_register(void *conn, int parc, char *parv[])
 
 	/* A verification code is created upon the caller's request,
 	 * independent of weather e-mail verification is configured in
-	 * shalture.conf */
+	 * zohlai.conf */
 	if (parc >= 5)
 	{
 		char *key = parv[4];
@@ -715,14 +715,13 @@ static int xmlrpcmethod_register(void *conn, int parc, char *parv[])
  *       account name, verification key, source ip (optional)
  *
  * XML Outputs:
- *       fault 1 - account doesn't exist
- *       fault 2 - invalid verification key
- *	 fault 3 - insufficient parameters
- *	 fault 4 - not awaiting verification
+ *       fault 1 - insufficient parameters
+ *       fault 2 - bad parameters (not awaiting authorization, invalid verification key)
+ *       fault 4 - account doesn't exist
  *       default - success message
  *
  * Side Effects:
- *       A new NickServ/UserServ account is registered.
+ *       A new NickServ/UserServ account is verified.
  */
 static int xmlrpcmethod_verify(void *conn, int parc, char *parv[])
 {
@@ -733,18 +732,18 @@ static int xmlrpcmethod_verify(void *conn, int parc, char *parv[])
 	*buf = '\0';
 	if (parc < 2)
 	{
-                xmlrpc_generic_error(3, "Insufficient parameters.");
+                xmlrpc_generic_error(1, "Insufficient parameters.");
                 return 0;
 	}
 	if (!(mu = myuser_find(parv[0])))
 	{
-		xmlrpc_generic_error(1, "The account is not registered.");
+		xmlrpc_generic_error(4, "The account is not registered.");
 		return 0;
 	}
 	/* (Do not check weather the user has logged in yet) */
 	if (!(mu->flags & MU_WAITAUTH) || !(md = metadata_find(mu, "private:verify:register:key")))
 	{
-		xmlrpc_generic_error(4, "Not awaiting verification");
+		xmlrpc_generic_error(2, "Not awaiting verification");
 		return 0;
 	}
 	if (strcasecmp(parv[1], md->value))
