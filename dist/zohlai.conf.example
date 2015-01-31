@@ -542,16 +542,18 @@ loadmodule "modules/infoserv/main";
  * Core components                              modules/saslserv/main
  * PLAIN mechanism                              modules/saslserv/plain
  * ECDSA-NIST256p-CHALLENGE                     modules/saslserv/ecdsa-nist256p-challenge
+ * ECDSA-NIST521p-CHALLENGE                     modules/saslserv/ecdsa-nist521p-challenge
  * AUTHCOOKIE mechanism (for IRIS)              modules/saslserv/authcookie
  * EXTERNAL mechanism (IRCv3.1+)                modules/saslserv/external
  *
- * ECDSA-NIST256p-CHALLENGE support requires that Zohlai be compiled against OpenSSL.
+ * ECDSA CHALLENGE support requires that Zohlai is compiled against OpenSSL.
  */
 loadmodule "modules/saslserv/main";
 loadmodule "modules/saslserv/plain";
 loadmodule "modules/saslserv/authcookie";
 #loadmodule "modules/saslserv/external";
 #loadmodule "modules/saslserv/ecdsa-nist256p-challenge"; /* requires SSL */
+#loadmodule "modules/saslserv/ecdsa-nist521p-challenge"; /* requires SSL */
 
 /* GameServ modules.
  *
