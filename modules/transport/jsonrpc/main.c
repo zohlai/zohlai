@@ -30,6 +30,8 @@ static bool jsonrpcmethod_command(void *conn, mowgli_list_t *params, char *id);
 static bool jsonrpcmethod_privset(void *conn, mowgli_list_t *params, char *id);
 static bool jsonrpcmethod_ison(void *conn, mowgli_list_t *params, char *id);
 static bool jsonrpcmethod_metadata(void *conn, mowgli_list_t *params, char *id);
+static bool jsonrpcmethod_register(void *conn, mowgli_list_t *params, char *id);
+static bool jsonrpcmethod_verify(void *conn, mowgli_list_t *params, char *id);
 
 
 static void jsonrpc_command_fail(sourceinfo_t *si, cmd_faultcode_t code, const char *message);
@@ -70,6 +72,8 @@ void _modinit(module_t *m)
 	jsonrpc_register_method("atheme.ison", jsonrpcmethod_ison);
 	jsonrpc_register_method("atheme.metadata", jsonrpcmethod_metadata);
 
+	jsonrpc_register_method("atheme.register", jsonrpcmethod_register);
+	jsonrpc_register_method("atheme.verify", jsonrpcmethod_verify);
 }
 
 void _moddeinit(module_unload_intent_t intent)
@@ -83,6 +87,9 @@ void _moddeinit(module_unload_intent_t intent)
 	jsonrpc_unregister_method("atheme.privset");
 	jsonrpc_unregister_method("atheme.ison");
 	jsonrpc_unregister_method("atheme.metadata");
+
+	jsonrpc_unregister_method("atheme.register");
+	jsonrpc_unregister_method("atheme.verify");
 
 	if ((n = mowgli_node_find(&handle_jsonrpc, httpd_path_handlers)) != NULL)
 	{
@@ -679,6 +686,154 @@ static bool jsonrpcmethod_metadata(void *conn, mowgli_list_t *params, char *id)
 
 	jsonrpc_success_string(conn, md->value, id);
 
+	return 0;
+}
+
+/*
+ * atheme.register
+ *
+ * JSON Inputs:
+ *       account name, password, e-mail, source ip (optional),
+ *       verification key (optional)
+ *
+ * JSON Outputs:
+ *       fault 1 - insufficient parameters
+ *       fault 2 - invalid username or email
+ *       fault 6 - user is on IRC (would be unfair to claim ownership)
+ *       fault 8 - account already exists
+ *       fault 9 - too many accounts associated with this email (not used!)
+ *       fault 10 - emailfail (sending the mail failed)
+ *       default - success message
+ *
+ * Side Effects:
+ *       A new NickServ/UserServ account is registered.
+ */
+
+static bool jsonrpcmethod_register(void *conn, mowgli_list_t *params, char *id)
+{
+	myuser_t *mu;
+	mynick_t *mn = NULL;
+
+	size_t len = MOWGLI_LIST_LENGTH(params);
+
+	if (len < 3)
+	{
+		jsonrpc_failure_string(conn, fault_needmoreparams, "Insufficient parameters.", id);
+		return 0;
+	}
+
+	if (!is_valid_username(mowgli_node_nth_data(params, 0)))
+	{
+		jsonrpc_failure_string(conn, fault_badparams, "Invalid username.", id);
+		return 0;
+	}
+
+	if ((nicksvs.no_nick_ownership == FALSE) && (user_find(mowgli_node_nth_data(params, 0)) != NULL))
+	{
+		jsonrpc_failure_string(conn, fault_noprivs, "A user matching this account is already on IRC.", id);
+		return 0;
+	}
+
+	if ((mu = myuser_find(mowgli_node_nth_data(params, 0))) != NULL)
+	{
+		jsonrpc_failure_string(conn, fault_alreadyexists, "The account is already registered.", id);
+		return 0;
+	}
+
+	/* We explicitely do not check for a valid email address or
+	 * whether the number of times the email address has been used is
+	 * exceeded. This is the responsibility of the caller, which may have
+	 * good reasons to break these limits, such as anonymous registration
+	 * via hashcash. */
+	mu = myuser_add(mowgli_node_nth_data(params, 0), auth_module_loaded ? "*" : mowgli_node_nth_data(params, 1),
+			mowgli_node_nth_data(params, 2), config_options.defuflags | MU_NOBURSTLOGIN |
+			(auth_module_loaded ? MU_CRYPTPASS : 0));
+	mu->registered = CURRTIME;
+	mu->lastlogin = CURRTIME;
+
+	if (!nicksvs.no_nick_ownership)
+	{
+		mn = mynick_add(mu, entity(mu)->name);
+		mn->registered = CURRTIME;
+		mn->lastseen = CURRTIME;
+	}
+	/* Do not check for rate limits */
+	/* Do not check for password strenght */
+
+	/* A verification code is created upon the caller's request,
+	 * independent of whether e-mail verification is configured in
+	 * zohlai.conf */
+	if (len >= 5)
+	{
+		char *key = mowgli_node_nth_data(params, 4);
+		mu->flags |= MU_WAITAUTH;
+		metadata_add(mu, "private:verify:register:key", key);
+		metadata_add(mu, "private:verify:register:timestamp",
+				number_to_string(time(NULL)));
+	}
+
+	logcommand_external(nicksvs.me, "jsonrpc", conn, (len >= 4) ? mowgli_node_nth_data(params, 3) : "127.0.0.1", mu, CMDLOG_REGISTER, "REGISTER");
+
+	jsonrpc_success_string(conn, "Registration successful.", id);
+	return 0;
+}
+
+/*
+ * atheme.verify
+ *
+ * JSON Inputs:
+ *       account name, verification key, source ip (optional)
+ *
+ * JSON Outputs:
+ *       fault 1 - insufficient parameters
+ *       fault 2 - bad parameters (not awaiting authorization, invalid verification key)
+ *       fault 4 - account doesn't exist
+ *       default - success message
+ *
+ * Side Effects:
+ *       A new NickServ/UserServ account is verified.
+ */
+
+static bool jsonrpcmethod_verify(void *conn, mowgli_list_t *params, char *id)
+{
+	myuser_t *mu;
+	metadata_t *md;
+
+	size_t len = MOWGLI_LIST_LENGTH(params);
+
+	if (len < 2)
+	{
+		jsonrpc_failure_string(conn, fault_needmoreparams, "Insufficient parameters.", id);
+		return 0;
+	}
+
+	if (!(mu = myuser_find(mowgli_node_nth_data(params, 0))))
+	{
+		jsonrpc_failure_string(conn, fault_nosuch_target, "The account is not registered.", id);
+		return 0;
+	}
+
+	/* (Do not check whether the user has logged in yet) */
+	if (!(mu->flags & MU_WAITAUTH) || !(md = metadata_find(mu, "private:verify:register:key")))
+	{
+		jsonrpc_failure_string(conn, fault_badparams, "Not awaiting verification.", id);
+		return 0;
+	}
+
+	if (strcasecmp(mowgli_node_nth_data(params, 1), md->value))
+	{
+		jsonrpc_failure_string(conn, fault_badparams, "Invalid verification key.", id);
+		return 0;
+	}
+
+	mu->flags &= ~MU_WAITAUTH;
+
+	metadata_delete(mu, "private:verify:register:key");
+	metadata_delete(mu, "private:verify:register:timestamp");
+
+	logcommand_external(nicksvs.me, "jsonrpc", conn, (len >= 3) ? mowgli_node_nth_data(params, 2) : "127.0.0.1", mu, LG_REGISTER, "VERIFY");
+
+	jsonrpc_success_string(conn, "Verification successful.", id);
 	return 0;
 }
 
