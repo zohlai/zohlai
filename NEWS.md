@@ -1,4 +1,4 @@
-Zohlai Services 1.0 Development Notes
+Zohlai Services 8.0 Development Notes
 =====================================
 
 This is the first release series of Zohlai.
@@ -9,12 +9,31 @@ nickserv
   for SASL ECDSA-NIST256p-CHALLENGE authentication.
 - nickserv/set_accountname: Set accountname to current nick if the current nick is grouped
   and the account argument is not given.
+- nickserv/{enforce,ghost}: respect frozen accounts
+- nickserv/vhost: update usercloak metadata on vhost removal
+- Make SETPASS keys expire after a configurable time
+- nickserv/sendpass{,_user}: use get_storage_oper_name where appropriate
+- nickserv: add /ns staff (+ exttarget)
+
+chanserv
+--------
+- Add verbose_ops_private config option, making the VERBOSE_OPS flag send private notices
+- Show who modified the FLAGS entry last.
+- Keep track of accountname changes on ACL entries
 
 operserv
 --------
 - operserv/debug: add a module for some debugging commands (FNC, TEMPVHOST)
 - operserv/akill: use get_kline_userhost if nick is given
 - operserv/akill: allow akilling unsafe masks
+
+saslserv
+--------
+- saslserv/ecdsa-nist521p-challenge: new SASL mechanism
+
+hostserv
+--------
+- hostserv/offer: add $entityid variable
 
 ircd protocol
 -------------
@@ -26,10 +45,16 @@ libathemecore
 - Try to use operserv for flood klines
 - libathemecore: s2s linking: fix default server description
 - libathemecore: add option to hide RPL_WHOISOPERATOR for non-services
+- libathemecore/logger: use ISO 8601 in log files
+- libathemecore: add find_best_vhost hook
+- libathemecore: add option to enable/disable ISO 8601 in logs
 
-misc
-----
+other
+-----
 - modules: add automated klines to the AKILL list
+- exttarget: add $ssl exttarget
+- transport/xmlrpc: add atheme.register and atheme.verify methods
+- transport/jsonrpc: add atheme.register and atheme.verify methods
 
 Atheme Services 7.2 Development Notes
 =====================================
@@ -52,6 +77,7 @@ nickserv
 - Make `REGAIN` log you in if successful.
 - Allow implementing custom filters for `LIST`
 - nickserv/multimark: new module which allows multiple MARK entries per nickname.
+- sendpass_user: require user/email combination
 
 chanserv
 --------
@@ -65,12 +91,20 @@ chanserv
 
 gameserv
 --------
+- Set the default to only roll/calc once if not specified.
 - gameserv/dice: make the maximum roll count configurable.
 
 groupserv
 ---------
+- Rewrite flags parser to use ga_flags
 - Hook into `sasl_may_impersonate` to support group-membership checks
 - groupserv/set_groupname: new module allowing renaming a groupserv group
+- groupserv/register: Add unverified user check
+
+hostserv
+--------
+- hostserv/request: Ignore request if requested vhost already set
+- Remove group-specific offered vhosts when group dropped
 
 helpserv
 --------
@@ -80,6 +114,8 @@ operserv
 --------
 - operserv/rwatch: allow creation of RWATCH rules which k-line if 'K' is a modifier on the
   provided regexp.
+- operserv/clones: update exempt management code
+- operserv/clones: check IP/mask validity in ADDEXEMPT
 
 saslserv
 --------
@@ -99,11 +135,13 @@ perl api
 ircd protocol
 -------------
 - Add user flag for tracking external services clients
+- Fail extban check if mask contains space
 - inspircd: Hopefully fix ignored account names when linking to the network
 - inspircd: Various improvements to InspIRCd 2.0 support
 - inspircd: Remove InspIRCd 1.2 and 2.1beta support
 - inspircd: Add support for rejoindelay property in InspIRCd 2.2
 - inspircd: Change the opertype used from 'Services' to 'Service'
+- inspircd: Ensure ircd-side topic lock state is always what we think it should be
 - ircnet: Implement oper-wallops, using individual notices
 - ngircd: Enable +qaohv support
 - ngircd: Ignore non-# channels for now
@@ -120,6 +158,14 @@ other
 - contrib/cap_sasl.pl: Fix crash if irssi has ICB or SILC plugins loaded
 - contrib/cap_sasl.pl: Fix crash if disconnected while waiting for SASL reply
 - transport/jsonrpc: new module implementing JSONRPC transport
+- chanacs_user_flags(): do not grant effective flags other than +b to unverified users (closes #416).
+- libathemecore/cidr: prevent inet_pton6 from silently ignoring invalid chars
+- Add a field to channel structure to track the number of internal clients in the channel.
+  This will make it easier to determine if removing a user will cause the channel to become
+  empty (since, in practice, services users will often part channels when the last normal
+  user leaves)
+- Alter several modules to use `numsvcmembers` in `struct channel`, instead of inferring
+  or guessing how many services users should be on the channel.
 
 crypto
 ------
