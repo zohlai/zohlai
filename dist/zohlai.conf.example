@@ -1457,6 +1457,18 @@ saslserv {
 	 * The realname (gecos) information we want SaslServ to have.
 	 */
 	real = "SASL Authentication Agent";
+
+	/* (*)announce_auth_failure
+	 * Should we announce and record failed login attempts
+	 * for clients trying to login to an account via SASL?
+	 * This can be useful to spot attempts to bruteforce passwords,
+	 * but there's not a lot of information to include
+	 * and the message might be confusing to users, so you can turn this off.
+	 *
+	 * Note that turning this off means you WILL NOT be notified of possible
+	 * brute force attacks on passwords via SASL.
+	 */
+	announce_auth_failure = yes;
 };
 
 /* MemoServ configuration.
