@@ -1469,6 +1469,11 @@ saslserv {
 	 * brute force attacks on passwords via SASL.
 	 */
 	announce_auth_failure = yes;
+
+	/* (*)hide_server_names
+	 * Hide server names in the bad_password message.
+	 */
+	#hide_server_names;
 };
 
 /* MemoServ configuration.
