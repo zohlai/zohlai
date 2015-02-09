@@ -196,7 +196,7 @@ static void logfile_write(logfile_t *lf, const char *buf)
 
 	time(&t);
 	tm = *localtime(&t);
-	if (me.iso8601_log)
+	if (config_options.iso8601_log)
 		strftime(datetime, sizeof datetime, "[%Y-%m-%d %H:%M:%S]", &tm);
 	else
 		strftime(datetime, sizeof datetime, "[%d/%m/%Y %H:%M:%S]", &tm);
@@ -573,7 +573,7 @@ static void vslog_ext(log_type_t type, unsigned int level, const char *fmt,
 
 	time(&t);
 	tm = *localtime(&t);
-	if (me.iso8601_log)
+	if (config_options.iso8601_log)
 		strftime(datetime, sizeof datetime, "[%Y-%m-%d %H:%M:%S]", &tm);
 	else
 		strftime(datetime, sizeof datetime, "[%d/%m/%Y %H:%M:%S]", &tm);

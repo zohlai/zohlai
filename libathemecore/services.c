@@ -362,7 +362,7 @@ void verbose(mychan_t *mychan, const char *fmt, ...)
 		notice(chansvs.nick, mychan->name, "%s", buf);
 	else if (MC_VERBOSE_OPS & mychan->flags)
 	{
-		if (me.verbose_ops_private)
+		if (config_options.verbose_ops_private)
 		{
 			MOWGLI_ITER_FOREACH(tn, mychan->chanacs.head)
 			{

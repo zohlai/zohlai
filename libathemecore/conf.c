@@ -220,8 +220,6 @@ void init_newconf(void)
 	add_conf_item("CASEMAPPING", &conf_si_table, c_si_casemapping);
 	add_bool_conf_item("HIDDEN", &conf_si_table, 0, &me.hidden, false);
 	add_bool_conf_item("NOWHOISOPERATOR", &conf_si_table, 0, &me.nowhoisoperator, false);
-	add_bool_conf_item("VERBOSE_OPS_PRIVATE", &conf_si_table, 0, &me.verbose_ops_private, false);
-	add_bool_conf_item("ISO8601_LOG", &conf_si_table, 0, &me.iso8601_log, false);
 
 	/* general{} block */
 	add_dupstr_conf_item("HELPCHAN", &conf_gi_table, 0, &config_options.helpchan, NULL);
@@ -255,6 +253,8 @@ void init_newconf(void)
 	add_conf_item("EXEMPTS", &conf_gi_table, c_gi_exempts);
 	add_conf_item("IMMUNE_LEVEL", &conf_gi_table, c_gi_immune_level);
 	add_bool_conf_item("SHOW_ENTITY_ID", &conf_gi_table, 0, &config_options.show_entity_id, false);
+	add_bool_conf_item("VERBOSE_OPS_PRIVATE", &conf_gi_table, 0, &config_options.verbose_ops_private, false);
+	add_bool_conf_item("ISO8601_LOG", &conf_gi_table, 0, &config_options.iso8601_log, true);
 
 	/* language:: stuff */
 	add_dupstr_conf_item("NAME", &conf_la_table, 0, &me.language_name, NULL);
