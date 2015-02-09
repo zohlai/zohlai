@@ -14,7 +14,7 @@ my %arg_types;
 my @unsupported_types = ( 'database_handle_t', 'sasl_message_t',
     'hook_module_load_t', 'hook_myentity_req_t', 'hook_host_request_t',
     'hook_channel_acl_req_t', 'hook_email_canonicalize_t', 'hook_user_get_banmask_t',
-    'hook_user_find_best_vhost_t', 'mygroup_t', 'hook_channel_mode_change_t' );
+    'hook_user_find_best_vhost_t', 'mygroup_t' );
 
 # Types that need special handling. Define the dispatch for these, but the handler
 # functions themselves are hand-written.
@@ -111,6 +111,11 @@ my %hook_structs = (
 	hook_channel_mode_t => {
 		u => [ 'user_t', 'user' ],
 		c => [ 'channel_t', 'channel' ],
+	},
+	hook_channel_mode_change_t => {
+		cu => [ 'chanuser_t', 'chanuser' ],
+		mchar => 'int',
+		mvalue => 'int',
 	},
 	hook_user_delete_t => {
 		u => [ 'user_t', 'user' ],
