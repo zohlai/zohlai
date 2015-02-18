@@ -112,10 +112,10 @@ wrong_syntax:
 	{
 		if (metadata_find(mu, "private:setpass:key"))
 		{
+			logcommand(si, CMDLOG_ADMIN, "SENDPASS:CLEAR: \2%s\2", entity(mu)->name);
 			metadata_delete(mu, "private:setpass:key");
 			metadata_delete(mu, "private:sendpass:sender");
 			metadata_delete(mu, "private:sendpass:timestamp");
-			logcommand(si, CMDLOG_ADMIN, "SENDPASS:CLEAR: \2%s\2", entity(mu)->name);
 			command_success_nodata(si, _("The password change key for \2%s\2 has been cleared."), entity(mu)->name);
 		}
 		else
@@ -151,11 +151,10 @@ wrong_syntax:
 		key = random_string(12);
 		if (sendemail(si->su != NULL ? si->su : si->service->me, mu, EMAIL_SETPASS, mu->email, key))
 		{
-			metadata_add(mu, "private:setpass:key", crypt_string(key, gen_salt()));
-			logcommand(si, CMDLOG_ADMIN, "SENDPASS: \2%s\2 (change key)", name);
 			if (ismarked)
 				wallops("%s sent the password for the \2MARKED\2 account %s.", get_oper_name(si), entity(mu)->name);
-
+			logcommand(si, CMDLOG_ADMIN, "SENDPASS: \2%s\2 (change key)", name);
+			metadata_add(mu, "private:setpass:key", crypt_string(key, gen_salt()));
 			metadata_add(mu, "private:sendpass:sender", get_storage_oper_name(si));
 			metadata_add(mu, "private:sendpass:timestamp", number_to_string(time(NULL)));
 
