@@ -85,28 +85,20 @@ static void ns_cmd_setpass(sourceinfo_t *si, int parc, char *parv[])
 	}
 
 	stored_key = get_setpass_key(mu);
-	if (stored_key != NULL && crypt_verify_password(key, stored_key) != NULL)
+	if (stored_key == NULL || crypt_verify_password(key, stored_key) == NULL)
 	{
-		logcommand(si, CMDLOG_SET, "SETPASS: \2%s\2", entity(mu)->name);
-		set_password(mu, password);
-		metadata_delete(mu, "private:setpass:key");
-		metadata_delete(mu, "private:sendpass:sender");
-		metadata_delete(mu, "private:sendpass:timestamp");
-
-
-		command_success_nodata(si, _("The password for \2%s\2 has been changed to \2%s\2."), entity(mu)->name, password);
-
+		if (stored_key != NULL)
+			logcommand(si, CMDLOG_SET, "failed SETPASS (invalid key)");
+		command_fail(si, fault_badparams, _("Verification failed. Invalid key for \2%s\2."), entity(mu)->name);
 		return;
 	}
 
-	if (stored_key != NULL)
-	{
-		logcommand(si, CMDLOG_SET, "failed SETPASS (invalid key)");
-	}
-	command_fail(si, fault_badparams, _("Verification failed. Invalid key for \2%s\2."),
-		entity(mu)->name);
-
-	return;
+	logcommand(si, CMDLOG_SET, "SETPASS: \2%s\2", entity(mu)->name);
+	metadata_delete(mu, "private:setpass:key");
+	metadata_delete(mu, "private:sendpass:sender");
+	metadata_delete(mu, "private:sendpass:timestamp");
+	set_password(mu, password);
+	command_success_nodata(si, _("The password for \2%s\2 has been changed to \2%s\2."), entity(mu)->name, password);
 }
 
 static void clear_setpass_key(user_t *u)
