@@ -131,7 +131,7 @@ wrong_syntax:
 
 	if (metadata_find(mu, "private:freeze:freezer"))
 	{
-		command_success_nodata(si, _("%s has been frozen by the %s administration."), entity(mu)->name, me.netname);
+		command_fail(si, fault_noprivs, _("%s has been frozen by the %s administration."), entity(mu)->name, me.netname);
 		return;
 	}
 
