@@ -59,6 +59,13 @@ static void ns_cmd_logout(sourceinfo_t *si, int parc, char *parv[])
 			return;
 		}
 
+		if (pass && (u->myuser->flags & MU_NOPASSWORD))
+		{
+			command_fail(si, fault_authfail, _("Password authentication has been disabled for this account."));
+			logcommand(si, CMDLOG_LOGIN, "failed LOGIN \2%s\2 (password authentication disabled)", u->nick);
+			return;
+		}
+
 		if (u->myuser == si->smu || (pass != NULL && verify_password(u->myuser, pass)))
 			notice(nicksvs.nick, u->nick, "You were logged out by \2%s\2.", si->su->nick);
 		else if (pass != NULL)
