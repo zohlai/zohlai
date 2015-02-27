@@ -169,7 +169,7 @@ E void (*unqline_sts)(const char *server, const char *mask);
  * if the ircd requires zlines to be sent from users, use opersvs */
 E void (*dline_sts)(const char *server, const char *host, long duration, const char *reason);
 /* remove a dline (sometimes called zline) on the servers matching the given mask
- * if the ircd requires unqlines to be sent from users, use opersvs */
+ * if the ircd requires unzlines to be sent from users, use opersvs */
 E void (*undline_sts)(const char *server, const char *host);
 /* make the given service set a topic on a channel
  * setter and ts should be used if the ircd supports topics to be set
