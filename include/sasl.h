@@ -19,6 +19,8 @@ struct sasl_session_ {
   int len, flags;
 
   server_t *server;
+  char *hostname;
+  char *ip;
 
   struct sasl_mechanism_ *mechptr;
   void *mechdata;

@@ -38,6 +38,7 @@ static void sasl_mech_register(sasl_mechanism_t *mech);
 static void sasl_mech_unregister(sasl_mechanism_t *mech);
 static void mechlist_build_string(char *ptr, size_t buflen);
 static void mechlist_do_rebuild();
+static const char *sasl_get_source_name(sourceinfo_t *si);
 
 sasl_mech_register_func_t sasl_mech_register_funcs = { &sasl_mech_register, &sasl_mech_unregister };
 
@@ -238,6 +239,8 @@ void destroy_session(sasl_session_t *p)
 	free(p->username);
 	free(p->certfp);
 	free(p->authzid);
+	free(p->hostname);
+	free(p->ip);
 
 	free(p);
 }
@@ -265,6 +268,14 @@ static void sasl_input(sasl_message_t *smsg)
 	{
 		free(p->certfp);
 		p->certfp = sstrdup(smsg->ext);
+	}
+
+	if (smsg->mode == 'H' && smsg->buf != NULL && smsg->ext != NULL)
+	{
+		free(p->hostname);
+		free(p->ip);
+		p->hostname = sstrdup(smsg->buf);
+		p->ip = sstrdup(smsg->ext);
 	}
 
 	if(p->buf == NULL)
@@ -457,15 +468,36 @@ static void sasl_packet(sasl_session_t *p, char *buf, int len)
 		myuser_t *mu = myuser_find_by_nick(p->username);
 		if (mu)
 		{
+			/* Source format:
+			 *   Source server and IP known: sasl:irc.example.com!127.0.0.1
+			 *   Source server known: sasl:irc.example.com
+			 *   Source IP known: sasl!::1
+			 *   No information known: sasl
+			 */
+
+			char hostinfo[HOSTLEN+4];
+			char servinfo[BUFSIZE];
 			char description[BUFSIZE];
 
+			if (p->hostname)
+				snprintf(hostinfo, sizeof hostinfo, "%s", p->hostname);
+			else if (p->ip)
+				snprintf(hostinfo, sizeof hostinfo, "%s", p->ip);
+
 			if (p->server && !hide_server_names)
-				snprintf(description, BUFSIZE, "Unknown user on %s (via SASL)", p->server->name);
+				snprintf(servinfo, sizeof servinfo, "sasl:%s", p->server->name);
 			else
-				snprintf(description, BUFSIZE, "Unknown user (via SASL)");
+				snprintf(servinfo, sizeof servinfo, "sasl");
+
+			if (hostinfo && *hostinfo != '\0')
+				snprintf(description, sizeof description, "%s!%s", servinfo, hostinfo);
+			else
+				snprintf(description, sizeof description, "%s", servinfo);
 
 			struct sourceinfo_vtable sasl_vtable = {
-				.description = description
+				.description = description,
+				.get_source_name = sasl_get_source_name,
+				.get_source_mask = sasl_get_source_name
 			};
 
 			sourceinfo_t *si = sourceinfo_create();
@@ -695,6 +727,18 @@ static void delete_stale(void *vptr)
 		} else
 			p->flags |= ASASL_MARKED_FOR_DELETION;
 	}
+}
+
+static const char *sasl_get_source_name(sourceinfo_t *si)
+{
+	static char result[BUFSIZE];
+
+	if (si->v->description)
+		snprintf(result, sizeof result, "%s", si->v->description);
+	else
+		snprintf(result, sizeof result, "sasl");
+
+	return result;
 }
 
 /* vim:cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
