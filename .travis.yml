@@ -1,18 +1,25 @@
 language: c
-script: ./configure --disable-nls --enable-ssl $OPTIONAL_CONF_ARGS && make -j $(nproc)
+
 compiler:
   - gcc
   - clang
-matrix:
-  fast_finish: true
-  allow_failures:
-    - env: OPTIONAL_CONF_ARGS="--enable-contrib"
-    - env: OPTIONAL_CONF_ARGS="--enable-exya"
+
 env:
   - OPTIONAL_CONF_ARGS=""
   - OPTIONAL_CONF_ARGS="--with-perl"
   - OPTIONAL_CONF_ARGS="--enable-contrib"
   - OPTIONAL_CONF_ARGS="--enable-exya"
+
 install:
   - sudo apt-get update -qq
-  - sudo apt-get install -q -y libperl-dev
+  - sudo apt-get install -q -y libperl-dev libssl-dev
+
+script:
+  - ./configure --disable-nls --enable-ssl $OPTIONAL_CONF_ARGS
+  - make -j $(nproc)
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: OPTIONAL_CONF_ARGS="--enable-contrib"
+    - env: OPTIONAL_CONF_ARGS="--enable-exya"
