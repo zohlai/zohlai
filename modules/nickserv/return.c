@@ -83,6 +83,12 @@ static void ns_cmd_return(sourceinfo_t *si, int parc, char *parv[])
 
 	free(newpass);
 
+	if (mu->flags & MU_NOPASSWORD)
+	{
+		mu->flags &= ~MU_NOPASSWORD;
+		command_success_nodata(si, _("The \2%s\2 flag has been removed for account \2%s\2."), "NOPASSWORD", entity(mu)->name);
+	}
+
 	/* prevents users from "stealing it back" in the event of a takeover */
 	metadata_delete(mu, "private:verify:emailchg:key");
 	metadata_delete(mu, "private:verify:emailchg:newemail");
