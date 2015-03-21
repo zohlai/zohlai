@@ -38,11 +38,8 @@ void _moddeinit(module_unload_intent_t intent)
 /* SET ACCOUNTNAME <nick> */
 static void ns_cmd_set_accountname(sourceinfo_t *si, int parc, char *parv[])
 {
-	char *newname = parv[0];
+	const char *newname = parv[0] ? parv[0] : si->su->nick;
 	mynick_t *mn;
-
-	if (!newname)
-		newname = si->su->nick;
 
 	if (is_conf_soper(si->smu))
 	{
