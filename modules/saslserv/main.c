@@ -481,7 +481,7 @@ static void sasl_packet(sasl_session_t *p, char *buf, int len)
 			 *   No information known: sasl
 			 */
 
-			char hostinfo[HOSTLEN+4];
+			char hostinfo[HOSTLEN];
 			char servinfo[BUFSIZE];
 			char description[BUFSIZE];
 
