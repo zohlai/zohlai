@@ -24,7 +24,7 @@ ircd_t InspIRCd = {
 	.uses_halfops = true,
 	.uses_p10 = false,
 	.uses_vhost = true,
-	.oper_only_modes = CMODE_OPERONLY | CMODE_PERM | CMODE_IMMUNE,
+	.oper_only_modes = CMODE_OPERONLY | CMODE_PERM,
 	.owner_mode = CSTATUS_OWNER,
 	.protect_mode = CSTATUS_PROTECT,
 	.halfops_mode = CSTATUS_HALFOP,
@@ -33,7 +33,7 @@ ircd_t InspIRCd = {
 	.halfops_mchar = "+h",
 	.type = PROTOCOL_INSPIRCD,
 	.perm_mode = CMODE_PERM,
-	.oimmune_mode = CMODE_IMMUNE,
+	.oimmune_mode = 0,
 	.ban_like_modes = "beIgXw",
 	.except_mchar = 'e',
 	.invex_mchar = 'I',
@@ -63,7 +63,6 @@ struct cmode_ inspircd_mode_list[] = {
   { 'T', CMODE_NONOTICE },
   { 'u', CMODE_HIDING	},
   { 'Q', CMODE_PEACE	},
-  { 'Y', CMODE_IMMUNE	},
   { 'D', CMODE_DELAYJOIN },
   { '\0', 0 }
 };

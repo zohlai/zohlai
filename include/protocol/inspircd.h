@@ -26,8 +26,7 @@
 #define CMODE_STICKY	0x01000000	/* unreal +N */
 #define CMODE_CENSOR    0x02000000	/* Censor +G */
 #define CMODE_NOCAPS    0x04000000	/* No capitals */
-#define CMODE_PERM		0x08000000	/* chary +P */
-#define CMODE_IMMUNE	0x10000000	/* Inspircd +Y */
-#define CMODE_DELAYJOIN 0x20000000  /* Inspircd +D */
+#define CMODE_PERM	0x08000000	/* chary +P */
+#define CMODE_DELAYJOIN 0x20000000	/* Inspircd +D */
 
 #endif
