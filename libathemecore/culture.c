@@ -231,7 +231,7 @@ language_add(const char *name)
 {
 	language_t *lang;
 
-	if (!strcmp(name, "default"))
+	if (name == NULL || !strcmp(name, "default"))
 		return NULL;
 	lang = language_find(name);
 	if (lang != NULL)
