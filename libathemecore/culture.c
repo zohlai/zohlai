@@ -249,6 +249,11 @@ language_find(const char *name)
 	mowgli_node_t *n;
 	language_t *lang;
 
+	if (name == NULL)
+	{
+		return NULL;
+	}
+
 	MOWGLI_ITER_FOREACH(n, language_list.head)
 	{
 		lang = n->data;
