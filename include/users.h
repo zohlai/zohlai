@@ -56,6 +56,7 @@ struct user_
 #define UF_DEAF        0x00004000 /* user does not receive channel msgs */
 #define UF_SERVICE     0x00008000 /* user is a service (e.g. +S on charybdis) */
 #define UF_SSLCLIENT   0x00010000 /* client is using SSL */
+#define UF_KLINESENT   0x00020000 /* we've sent a kline for this user */
 
 #define CLIENT_NAME(user)	((user)->uid != NULL ? (user)->uid : (user)->nick)
 

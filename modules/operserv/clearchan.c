@@ -116,11 +116,15 @@ static void os_cmd_clearchan(sourceinfo_t *si, int parc, char *parv[])
 					kill_user(si->service->me, cu->user, "%s", reason);
 					break;
 				case CLEAR_AKILL:
-					if (is_autokline_exempt(cu->user))
+					if (is_autokline_exempt(cu->user)) {
 						command_success_nodata(si, _("\2CLEARCHAN\2: Not klining exempt user %s!%s@%s"),
 								cu->user->nick, cu->user->user, cu->user->host);
-					else
-						kline_add_user(cu->user, reason, 604800, get_storage_oper_name(si));
+					} else {
+						if (! (cu->user->flags & UF_KLINESENT)) {
+							kline_add_user(cu->user, reason, 604800, get_storage_oper_name(si));
+							cu->user->flags |= UF_KLINESENT;
+						}
+					}
 			}
 		}
 	}

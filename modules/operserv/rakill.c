@@ -110,7 +110,10 @@ static void os_cmd_rakill(sourceinfo_t *si, int parc, char *parv[])
 		{
 			/* match */
 			command_success_nodata(si, _("\2Match:\2  %s!%s@%s %s - akilling"), u->nick, u->user, u->host, u->gecos);
-			kline_add_user(u, reason, 604800, get_storage_oper_name(si));
+			if (! (u->flags & UF_KLINESENT)) {
+				kline_add_user(u, reason, 604800, get_storage_oper_name(si));
+				u->flags |= UF_KLINESENT;
+			}
 			matches++;
 		}
 	}
