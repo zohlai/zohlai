@@ -1188,7 +1188,7 @@ chanserv {
 		aop = "+AOhiortv";
 		sop = "+AOaefhiorstv";
 
-		founder = "+AFORaefhiorstv";
+		founder = "+AFORaefhioqrstv";
 
 		/* some examples (which are commented out...) */
 		#member = "+Ai";
